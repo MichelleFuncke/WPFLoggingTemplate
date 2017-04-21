@@ -39,19 +39,31 @@ namespace WPFLoggingTemplate
 
             //Log the info to a log file
             string logs = "Logs\\Test_" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
-            string line = string.Format("{0};{1};{2} {3}\n(\n\tSource:{4}\n\tInnerException:{5}\n\tHResult:{6}\n\tStrackTrace:{7}\n)", DateTime.Now, Environment.UserName, "Test", e.Message, e.Source, e.InnerException, e.HResult, e.StackTrace);
+            string line = string.Format("{0} User:{1}; AppName:{2}; ErrorMessage:{3}\n{{\n\tSource:{4}\n\tInnerException:{5}\n\tHResult:{6}\n\tStrackTrace:{7}\n}}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Environment.UserName, "Test", e.Message, e.Source, e.InnerException, e.HResult, e.StackTrace);
             //File.WriteAllText(logs, line);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(logs, true))
             {
-                //file.WriteLine(line);
-                file.WriteLine(ActionTracer.ConvertToLogEntry());
+                file.WriteLine(line);
+                file.WriteLine("ActionTrace:\n{");
+                file.WriteLine(ActionTracer.ConvertToLogEntry() + "}");
             }
         }
 
+        int count = 0;
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            ActionTracer.PushAction("button", sender.ToString(), e.ToString());
-            throw new Exception("test");
+            //Console.WriteLine(e.OriginalSource);
+            //Console.WriteLine(this.btn_temp.Content);
+            //Console.WriteLine(this.btn_temp.Name);
+            //Console.WriteLine(e.RoutedEvent);
+            ActionTracer.PushAction(this.btn_temp.Name, e.OriginalSource.ToString(), e.RoutedEvent.ToString());
+
+            if (count == 4)
+            {
+                throw new Exception("test");
+            }
+            count++;
         }
     }
 }

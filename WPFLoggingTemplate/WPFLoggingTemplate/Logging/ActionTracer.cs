@@ -23,9 +23,9 @@ namespace Purrfect.Logging
 
         private static string ActionToString(string context, string[] argumentValues)
         {
-            StringBuilder ret = new StringBuilder(context);
+            StringBuilder ret = new StringBuilder(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +" "+ context);
 
-            foreach (var str in _actions)
+            foreach (var str in argumentValues)
             {
                 ret.AppendFormat(", {0}", str);
             }
