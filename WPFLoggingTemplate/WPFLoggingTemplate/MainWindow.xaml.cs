@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -59,11 +60,25 @@ namespace WPFLoggingTemplate
             //Console.WriteLine(e.RoutedEvent);
             ActionTracer.PushAction(this.btn_temp.Name, e.OriginalSource.ToString(), e.RoutedEvent.ToString());
 
+            ActionTracer.GetInstanceField(MethodBase.GetCurrentMethod());
+
+            var temp = test(9);
+
             if (count == 4)
             {
                 throw new Exception("test");
             }
             count++;
+
+            
+        }
+        //www.sourcetreeapp.com
+
+        private static int test(int i)
+        {
+            //http://stackoverflow.com/questions/44153/can-you-use-reflection-to-find-the-name-of-the-currently-executing-method
+            ActionTracer.GetInstanceField(MethodBase.GetCurrentMethod(), i.ToString(), "Hello");
+            return i;
         }
     }
 }
