@@ -58,7 +58,12 @@ namespace Purrfect.Logging
 
             //Since returntype can be empty or it has a space at the end we don't need to add a space to the formatter
             //The membertype will tell us if the methodbase is e.g. method, class
-            var name = string.Format("({0}) {1}'{2}'", methodBase.MemberType, returntype, methodBase.Name);
+            var name = methodBase.Name;
+            if (methodBase.MemberType.ToString() == "Constructor")
+            {
+                name = methodBase.DeclaringType.FullName;
+            }
+            var fullname = string.Format("({0}) {1}'{2}'", methodBase.MemberType, returntype, name);
 
             //http://stackoverflow.com/questions/3303126/how-to-get-the-value-of-private-field-in-c
             //BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
@@ -66,7 +71,7 @@ namespace Purrfect.Logging
 
             if (argumentValues.Length == 0) //This means no parameter values were sent into the call
             {
-                PushAction(name, values);
+                PushAction(fullname, values);
             }
             else
             {               

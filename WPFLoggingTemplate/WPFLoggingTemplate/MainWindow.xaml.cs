@@ -62,6 +62,8 @@ namespace WPFLoggingTemplate
 
             ActionTracer.GetInstanceField(MethodBase.GetCurrentMethod());
 
+            var testclass = new TestClass();
+
             var temp = test(9);
 
             if (count == 4)
