@@ -1,4 +1,4 @@
-﻿using Purrfect.Logging;
+﻿using LoggingHelper.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +60,7 @@ namespace WPFLoggingTemplate
             //Console.WriteLine(e.RoutedEvent);
             ActionTracer.PushAction(this.btn_temp.Name, e.OriginalSource.ToString(), e.RoutedEvent.ToString());
 
-            ActionTracer.GetInstanceField(MethodBase.GetCurrentMethod());
+            ActionTracer.PushMethodtoQueue(MethodBase.GetCurrentMethod());
 
             var testclass = new TestClass();
 
@@ -79,7 +79,7 @@ namespace WPFLoggingTemplate
         private static int test(int i)
         {
             //http://stackoverflow.com/questions/44153/can-you-use-reflection-to-find-the-name-of-the-currently-executing-method
-            ActionTracer.GetInstanceField(MethodBase.GetCurrentMethod(), i.ToString(), "Hello");
+            ActionTracer.PushMethodtoQueue(MethodBase.GetCurrentMethod(), i.ToString(), "Hello");
             return i;
         }
     }
